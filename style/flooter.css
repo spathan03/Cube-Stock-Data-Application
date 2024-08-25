@@ -1,0 +1,16 @@
+/* Ensure the footer is at the bottom and centered */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+footer {
+    margin-top: auto; /* Pushes footer to the bottom */
+    text-align: center; /* Center the text */
+    font-size: 0.75rem;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    padding: 10px 0;
+}

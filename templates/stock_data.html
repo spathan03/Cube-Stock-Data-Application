@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cube Stock Data Application</title>
+    <!-- Link to Bootstrap CSS for responsive design -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for small scale design */
+        body {
+            font-size: 0.875rem; /* Small font size for compact design */
+            background-color: #f8f9fa; /* Light grey background */
+        }
+        
+        h1 {
+            font-size: 1.5rem; /* Title size */
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #343a40; /* Dark grey color for title */
+        }
+        table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #fff;
+            border-collapse: collapse;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.875rem; /* Small table font size */
+        }
+        th, td {
+            padding: 0.5rem; /* Compact padding */
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+            white-space: nowrap; /* Ensure content stays on one line */
+        }
+        th {
+            background-color: #343a40; /* Dark header background */
+            color: #fff; /* White text for header */
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #f2f2f2; /* Light grey for odd rows */
+        }
+        .form-control-sm {
+            width: 100px; /* Adjust input fields size */
+            display: inline-block; /* Keep inputs in line */
+        }
+        .btn-sm {
+            font-size: 0.75rem; /* Smaller button font */
+            padding: 0.25rem 0.5rem; /* Compact button size */
+        }
+        .btn-export {
+            margin-top: 1rem;
+            display: block;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #clock {
+            font-size: 1rem;
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6c757d;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 10px 0;
+        }
+    </style>
+    <script>
+        function updateClock() {
+            const options = { timeZone: 'Asia/Kolkata', hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const now = new Intl.DateTimeFormat('en-US', options).format(new Date());
+            document.getElementById('clock').textContent = now + " IST";
+        }
+        setInterval(updateClock, 1000);
+        window.onload = updateClock;
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Cube Stock Data Application</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register</a>
+                </li>
+                <!-- Add more links as needed -->
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="clock">Loading Indian time...</div>
+        
+        <!-- User ID and Logout Button -->
+        <div class="text-center">
+            <a href="/" class="btn btn-primary btn-lg">View Stock Data</a>
+            <a href="/logout" class="btn btn-danger btn-lg">Logout</a>
+        </div>
+
+        <h1>Cube Stock Data Application</h1>
+        
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <!-- Your table headers ordered for best readability -->
+                    <th>Security ID</th>
+                    <th>Description</th>
+                    <th>Y Ticker</th>
+                    <th>G Ticker</th>
+                    <th>SRC</th>
+                    <th>Local Price</th>
+                    <th>Previous Price</th>
+                    <th>Differences</th>
+                    <th>Differences (%)</th>
+                    <th>Local Price Date</th>
+                    <th>Vendor</th>
+                    <th>User ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.Security_ID }}</td>
+                    <td>{{ record.Description }}</td>
+                    <td>{{ record.Y_Ticker }}</td>
+                    <td>{{ record.G_Ticker }}</td>
+                    <td>{{ record.SRC }}</td>
+                    <td>{{ record.Local_Price }}</td>
+                    <td>{{ record.Previous_Price }}</td>
+                    <td>{{ record.Differences }}</td>
+                    <td>{{ record.Differences_Percentage }}</td>
+                    <td>{{ record.Local_Price_Date }}</td>
+                    <td>{{ record.Vendor }}</td>
+                    <td>{{ record.User_ID }}</td>
+                    <td>
+                        <form action="/update" method="POST">
+                            <input type="hidden" name="Security_ID" value="{{ record.Security_ID }}">
+                            <input type="text" name="Local_Price" class="form-control form-control-sm" value="{{ record.Local_Price }}">
+                            <input type="date" name="Local_Price_Date" class="form-control form-control-sm" value="{{ record.Local_Price_Date }}">
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2 class="text-center">Median Local Price: {{ median_local_price }}</h2>
+
+        <a href="/export" class="btn btn-success btn-export">Export to CSV</a>
+    </div>
+
+    <!-- Footer with copyright and attribution -->
+    <footer>
+        <p>Powered by Sohel Pathan</p>
+        <p>Copyright © 2024 Sohel Pathan</p>
+    </footer>
+
+    <!-- Include Bootstrap JS for enhanced functionality -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
