@@ -19,7 +19,11 @@
             text-align: center;
             color: #343a40; /* Dark grey color for title */
         }
-        table {
+        .container {
+            max-width: 2000px;
+            margin-top: 20px;
+        }
+        table-container {
             width: 100%;
             margin-bottom: 1rem;
             background-color: #fff;
@@ -93,10 +97,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/register">Register</a>
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/support">Support</a>
                 </li>
                 <!-- Add more links as needed -->
             </ul>
@@ -110,8 +117,11 @@
         <div class="text-center">
             <a href="/" class="btn btn-primary btn-lg">View Stock Data</a>
             <a href="/logout" class="btn btn-danger btn-lg">Logout</a>
+            <a href="adminportal" class="btn btn-danger btn-lg">Admin Portal</a>
         </div>
+        <h2 class="text-center">Export to CSV: {{ median_local_price }}</h2>
 
+        <a href="/export" class="btn btn-success btn-export">Export to CSV</a>
         <h1>Cube Stock Data Application</h1>
         
         <table class="table table-bordered table-striped table-hover">
@@ -161,17 +171,13 @@
             </tbody>
         </table>
 
-        <h2 class="text-center">Median Local Price: {{ median_local_price }}</h2>
-
-        <a href="/export" class="btn btn-success btn-export">Export to CSV</a>
+        <p>&copy; 2024 Cube Stock Data | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>2>
     </div>
 
-    <!-- Footer with copyright and attribution -->
+    <!-- Footer -->
     <footer>
-        <p>Powered by Sohel Pathan</p>
-        <p>Copyright © 2024 Sohel Pathan</p>
+        <p>&copy; 2024 Cube Stock Data | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
     </footer>
-
     <!-- Include Bootstrap JS for enhanced functionality -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

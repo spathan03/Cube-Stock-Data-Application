@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('adminportal') }}">Admin Portal</a></li>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                <li><a href="{{ url_for('support') }}">Support</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h1>Admin Portal</h1>
+        
+        <section>
+            <h2>User Management</h2>
+            <a href="{{ url_for('view_users') }}" class="button">View Users</a>
+            <a href="{{ url_for('add_user') }}" class="button">Add User</a>
+        </section>
+        
+        <section>
+            <h2>Stock Data Management</h2>
+            <a href="{{ url_for('view_stock_data') }}" class="button">View Stock Data</a>
+            <a href="{{ url_for('update_stock_data') }}" class="button">Update Stock Data</a>
+        </section>
+        
+        <section>
+            <h2>Support Tickets</h2>
+            <a href="{{ url_for('view_support_tickets') }}" class="button">View Support Tickets</a>
+            <a href="{{ url_for('resolve_support_tickets') }}" class="button">Resolve Tickets</a>
+        </section>
+        
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Cube Stock Application</p>
+    </footer>
+</body>
+</html>

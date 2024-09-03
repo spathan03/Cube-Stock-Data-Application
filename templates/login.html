@@ -6,49 +6,64 @@
     <title>Login - Cube Stock Data</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
+    
         .container {
-            max-width: 700px;
-            margin-top: 20px;
+            max-width: 500px;
+            margin-top: 300px;
         }
+
         .form-container {
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
         }
-        footer {
-            margin-top: 20px;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 0.75rem;
-            color: #6c757d;
-            background-color: #f8f9fa;
+
+        h3 {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0px 4px 6px rgba(0, 123, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .form-control {
+            border-radius: 1000px;
+            padding: 15px;
+        }
+
+        .register-link {
+            color: #007bff;
+        }
+
+        .register-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Cube Stock Data Application</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Register</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
     <!-- Login Form -->
     <div class="container">
         <div class="form-container">
-            <h3 class="text-center">Login Request</h3>
+            <h3 class="text-center">Login to Cube Stock Data</h3>
             <form action="/login" method="POST">
                 <div class="form-group">
                     <label for="username">Username:</label>
@@ -61,26 +76,19 @@
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
             </form>
             <p class="text-center mt-3">
-                <a href="/register">Don't have an account? Register</a>
+                <a href="/register" class="register-link">Don't have an account? Register</a>
             </p>
         </div>
     </div>
-    <div>
-        <p class="text-center"></p>
-    </div>
-    <div>
-        <p class="text-center">The Network is to be used for authorized Cube Technology India Pvt. Ltd. business purposes only.</p>
-    </div>
-    <div>
-        <p class="text-center">Privacy/Password Information</p>
+
+    <!-- Notice -->
+    <div class="text-center text-black mt-4">
+        <p>The Network is to be used for authorized Cube Technology India Pvt. Ltd. business purposes only.</p>
+        <p><a href="#" class="register-link">Privacy/Password Information</a></p>
+        <p>Powered by Sohel Pathan</p>
+        <p>&copy; 2024 Sohel Pathan</p>
     </div>
     
-
-    <!-- Footer -->
-    <footer>
-        <p>Powered by Sohel Pathan</p>
-        <p>Copyright © 2024 Sohel Pathan</p>
-    </footer>
 
     <!-- Include Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

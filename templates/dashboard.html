@@ -7,74 +7,89 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f0f2f5;
             color: #343a40;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        /* Navbar */
         .navbar {
-            margin-bottom: 20px;
-            padding: 15px;
+            background-color: #1d2021;
+            margin-bottom: 40px;
+            padding: 20px;
         }
-
         .navbar-brand img {
-            height: 40px;
+            height: 50px;
         }
-
-        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #007bff, #00bfff);
+            background: url('https://img.freepik.com/free-photo/psychedelic-paper-shapes-with-copy-space_23-2149378246.jpg?t=st=1725303111~exp=1725306711~hmac=4b92ae84f6c77a8c97dbe590d8cd60e0523ddb2befbb620a1d0355bc2beeab46&w=1060') center/cover no-repeat;
             color: white;
-            padding: 60px 20px;
-            border-radius: 8px;
+            padding: 80px 20px;
+            border-radius: 10px;
             text-align: center;
             margin-bottom: 40px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
         }
-
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 123, 255, 0.6);
+            border-radius: 10px;
+        }
         .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 3rem;
+            z-index: 1;
+            position: relative;
         }
-
         .hero p {
-            font-size: 1.25rem;
-            max-width: 600px;
+            font-size: 1.5rem;
+            max-width: 700px;
             margin: 0 auto;
+            z-index: 1;
+            position: relative;
         }
-
-        /* Buttons */
         .btn-primary, .btn-danger {
-            padding: 15px 30px;
+            padding: 15px 35px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #00bfff;
+            border-color: #00bfff;
         }
-
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #009bd6;
         }
-
         .btn-danger {
             background-color: #dc3545;
             border-color: #dc3545;
         }
-
         .btn-danger:hover {
             background-color: #c82333;
         }
-
-        /* Container */
         .container {
-            max-width: 900px;
+            max-width: 1000px;
         }
-
-        /* Footer */
+        .card-deck {
+            margin-bottom: 40px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
         footer {
             background-color: #343a40;
             color: white;
@@ -82,24 +97,21 @@
             text-align: center;
             margin-top: 40px;
         }
-
         footer a {
             color: #00bfff;
             text-decoration: none;
         }
-
         footer a:hover {
             text-decoration: underline;
         }
-
     </style>
 </head>
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">
-            <img src="logo.png" alt="Cube Stock Data"> Cube Stock Data
+            <img src="https://scontent.fpnq9-1.fna.fbcdn.net/v/t39.30808-6/458178059_2169730230073456_6954890262318440446_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_ohc=3iUBP5c_v40Q7kNvgF8e103&_nc_ht=scontent.fpnq9-1.fna&oh=00_AYCi5TtUyEkLZ4cdBZv9Dl6i_fOQ5Kd_ZcEF2fqgfWtprw&oe=66DBE33E" alt="Cube Stock Data"> Cube Stock Data
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -107,13 +119,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Dashboard</a>
+                    <a class="nav-link" href="dashboard">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
+                    <a class="nav-link" href="/profile">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Support</a>
+                    <a class="nav-link" href="/support">Support</a>
                 </li>
             </ul>
         </div>
@@ -123,13 +135,40 @@
     <div class="container">
         <div class="hero">
             <h1>Welcome, {{ username }}!</h1>
-            <p>Explore the latest stock data, track your portfolio, and stay ahead of market trends.</p>
+            <p>Stay ahead of the market with real-time insights, smart tracking, and dynamic stock data at your fingertips.</p>
         </div>
+
+        <!-- Stock Data Cards Section -->
+        <div class="card-deck">
+            <div class="card">
+                <img src="https://img.freepik.com/free-photo/young-woman-yellow-shirt-looks-thoughtful-dreamy_144627-68093.jpg?ga=GA1.1.236374937.1725303617" class="card-img-top" alt="Stock 1">
+                <div class="card-body">
+                    <h5 class="card-title">The Stock Market</h5>
+                    <p class="card-text">The stock market is a dynamic platform where investors buy and sell shares of companies, driving economic growth and influencing global markets.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://img.freepik.com/free-photo/confident-young-afro-american-student-with-backpack-holding-book-doing-silence-gesture-isolated-orange-wall-with-copy-space_141793-121194.jpg?ga=GA1.1.236374937.1725303617" class="card-img-top" alt="Stock 2">
+                <div class="card-body">
+                    <h5 class="card-title">Market Trends</h5>
+                    <p class="card-text">Market trends are shaped by various factors, including corporate earnings, geopolitical events, and investor sentiment, making stock movements highly unpredictable.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://img.freepik.com/free-photo/young-traveler-woman-wearing-red-sunglasses-with-backpack-listening-music-using-headphones-with-happy-face-green-wall_141793-13524.jpg?ga=GA1.1.236374937.1725303617" class="card-img-top" alt="Stock 3">
+                <div class="card-body">
+                    <h5 class="card-title">Successful Investors</h5>
+                    <p class="card-text">Successful investors stay ahead by analyzing stock price movements, tracking market news, and utilizing data-driven insights to make informed decisions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
         <div class="text-center">
-            <a href="/" class="btn btn-primary btn-lg">
+            <a href="/" class="btn btn-primary btn-lg mt-4">
                 <i class="fas fa-chart-line"></i> View Stock Data
             </a>
-            <a href="/logout" class="btn btn-danger btn-lg">
+            <a href="/logout" class="btn btn-danger btn-lg mt-4">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </div>
@@ -143,6 +182,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- For Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 </html>

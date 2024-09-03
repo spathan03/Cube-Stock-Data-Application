@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 import csv
@@ -44,7 +44,6 @@ def login():
                 return redirect(url_for('dashboard'))
             else:
                 flash('Invalid credentials!')
-                return redirect(url_for('login'))
         return redirect(url_for('login'))
     return render_template('login.html')
 
@@ -71,7 +70,7 @@ def register():
             
             flash('Registration successful!')
             return redirect(url_for('login'))
-        return redirect(url_for('register'))
+        flash('Registration failed!')
     return render_template('register.html')
 
 # Dashboard route
@@ -112,6 +111,7 @@ def stock_data():
             records = cursor.fetchall()
             db.close()
             return render_template('stock_data.html', records=records, user_id=session['user_id'])
+        flash('Error fetching stock data.')
         return redirect(url_for('dashboard'))
     return redirect(url_for('login'))
 
@@ -136,8 +136,8 @@ def update_stock():
             
             flash('Stock data updated!')
             return redirect(url_for('stock_data'))
-        return redirect(url_for('stock_data'))
-    return redirect(url_for('login'))
+        flash('Error updating stock data.')
+    return redirect(url_for('stock_data'))
 
 # Export stock data
 @app.route('/export')
@@ -177,36 +177,51 @@ def export_data():
         writer.writerows(records)
         output.seek(0)
 
-        return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/csv', as_attachment=True, attachment_filename='stock_data.csv')
+        return send_file(
+            io.BytesIO(output.getvalue().encode('utf-8')),
+            mimetype='text/csv',
+            as_attachment=True,
+            download_name='stock_data.csv'
+        )
     flash('Error exporting data.')
     return redirect(url_for('stock_data'))
+
+
+    
 
 # Profile page
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'user_id' in session:
         user_id = session['user_id']
-        db = get_db_connection()
-        if db:
-            cursor = db.cursor(dictionary=True)
-            if request.method == 'POST':
-                full_name = request.form['full_name']
-                email_address = request.form['email_address']
-                phone_number = request.form['phone_number']
-                country = request.form['country']
-                
+        if request.method == 'POST':
+            full_name = request.form['full_name']
+            email_address = request.form['email_address']
+            phone_number = request.form['phone_number']
+            country = request.form['country']
+            
+            db = get_db_connection()
+            if db:
+                cursor = db.cursor()
                 cursor.execute('''
                     UPDATE users
                     SET full_name = %s, email_address = %s, phone_number = %s, country = %s
                     WHERE id = %s
                 ''', (full_name, email_address, phone_number, country, user_id))
                 db.commit()
+                db.close()
                 flash('Profile updated successfully!')
-            
+                return redirect(url_for('profile'))
+            flash('Error updating profile.')
+        
+        db = get_db_connection()
+        if db:
+            cursor = db.cursor(dictionary=True)
             cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))
             user = cursor.fetchone()
             db.close()
             return render_template('profile.html', user=user)
+        flash('Error fetching user profile.')
         return redirect(url_for('dashboard'))
     return redirect(url_for('login'))
 
@@ -238,6 +253,30 @@ def logout():
     session.clear()
     flash('You have been logged out.')
     return redirect(url_for('login'))
+
+# Profile update API endpoint
+@app.route('/update-profile', methods=['POST'])
+def update_profile():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        full_name = request.form.get('full_name')
+        email_address = request.form.get('email_address')
+        phone_number = request.form.get('phone_number')
+        country = request.form.get('country')
+
+        db = get_db_connection()
+        if db:
+            cursor = db.cursor()
+            cursor.execute('''
+                UPDATE users
+                SET full_name = %s, email_address = %s, phone_number = %s, country = %s
+                WHERE id = %s
+            ''', (full_name, email_address, phone_number, country, user_id))
+            db.commit()
+            db.close()
+            return jsonify({'status': 'success'}), 200
+        return jsonify({'status': 'error', 'message': 'Database error'}), 500
+    return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
 
 if __name__ == '__main__':
     app.run(debug=True)
