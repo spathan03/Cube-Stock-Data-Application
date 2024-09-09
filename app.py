@@ -10,9 +10,9 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'your_secret_key')  # Use en
 
 # Database connection configuration
 db_config = {
-    'user': os.environ.get('DB_USER', 'root'),
-    'password': os.environ.get('DB_PASSWORD', 'sohel7866'),
-    'host': os.environ.get('DB_HOST', 'localhost'),
+    'user': os.environ.get('DB_USER', 'freedb_sohel'),
+    'password': os.environ.get('DB_PASSWORD', '%8@CutT!yV?rrKg'),
+    'host': os.environ.get('DB_HOST', 'sql.freedb.tech'),
     'database': os.environ.get('DB_NAME', 'cube_stock_application')
 }
 
